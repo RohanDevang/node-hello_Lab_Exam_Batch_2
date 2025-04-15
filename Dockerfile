@@ -1,20 +1,21 @@
-# Use the latest Node.js LTS version as the base image
-FROM node:18-alpine
- 
+# Use the official Node.js 18 image as the base image
+
+FROM node:18
+
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /usr/src/app
  
-# Copy package.json and package-lock.json to leverage Docker caching
-COPY src/package*.json ./
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
  
 # Install dependencies
-RUN npm install --production --slient
+RUN npm install
  
-# Copy the entire project into the container
-COPY src/. .
+# Copy the rest of the application code
+COPY . .
  
-# Expose the port the app runs on
+# Expose the port the app runs on (e.g., 3000)
 EXPOSE 3000
  
-# Command to run the application
-CMD ["node", "server.mjs"]
+# Command to run the app
+CMD ["node", "app.js"]
